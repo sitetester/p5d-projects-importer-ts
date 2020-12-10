@@ -18,11 +18,18 @@ export class Project {
     title: number;
 
     // https://typeorm.io/#/undefined/creating-a-one-to-one-relation
-    @OneToOne(() => ProjectThumbnail)
+    // Using @JoinColumn decorator is required on the owner side of the relationship.
+    @OneToOne(type => ProjectThumbnail, thumbnail => thumbnail.project, {
+        cascade: true,
+    })
     @JoinColumn()
     thumbnail: ProjectThumbnail;
 
-    @OneToOne(() => ProjectStats)
+    // https://typeorm.io/#/undefined/creating-a-one-to-one-relation
+    // Using @JoinColumn decorator is required on the owner side of the relationship.
+    @OneToOne(type => ProjectStats, stats => stats.project, {
+        cascade: true,
+    })
     @JoinColumn()
     stats: ProjectStats;
 

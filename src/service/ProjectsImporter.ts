@@ -1,7 +1,7 @@
 import ProjectsParser from "./parser/projectsParser";
 import ProjectDetailsParser from "./parser/projectDetailsParser";
-import {getConnection} from "typeorm";
 import {Project} from "../entity/Project";
+import {getConnection} from "typeorm";
 
 const axios = require('axios');
 
@@ -20,24 +20,29 @@ export default class ProjectsImporter {
 
     async import(page = 1, maxPages: number = 5): Promise<boolean> {
 
-        console.info(`Importing page:  ${page}`);
+        console.info(`Importing page: ${page}`);
         const url = this.baseUrl + '/gallery/floorplans?page=' + page;
 
         const response = await axios.get(url)
         const html = response['data']
 
-        const parsedProjects: Project[] = []
+        const projectRepository = getConnection().getRepository(Project)
 
-        const projects = this.projectsParser.parse(html)
-        for (const project of projects) {
+        const parsedProjects = this.projectsParser.parse(html)
+        for (const parsedProject of parsedProjects) {
+            const response = await axios.get(this.baseUrl + parsedProject.link)
+            const project = await this.projectDetailsParser.parse(response.data, parsedProject)
 
-            const detailsHtml = (await axios.get(this.baseUrl + project.link)).data
-            parsedProjects.push(await this.projectDetailsParser.parse(detailsHtml, project))
-            break
+            // https://typeorm.io/#/undefined/using-cascades-to-automatically-save-related-objects
+            // https://typeorm.io/#/many-to-one-one-to-many-relations
+            // ```With cascades enabled you can save this relation with only one save call.```
+            await projectRepository.save(project)
         }
 
-        // https://typeorm.io/#/undefined/using-asyncawait-syntax
-        await getConnection().getRepository(Project).save(parsedProjects)
+        ++page
+        if (page <= maxPages) {
+            await this.import(page, maxPages)
+        }
 
         return true;
     }

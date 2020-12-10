@@ -45,7 +45,6 @@ export default class ProjectsParser {
 
         let projects: Project[] = []
         $('div.card.ideas-card', html).each(function (i, divCardIdeasCard) {
-            const that = this
             const project: Project = new Project()
 
             project.link = $('a.card-image.image', divCardIdeasCard).attr('href');
@@ -54,8 +53,6 @@ export default class ProjectsParser {
 
             projects.push(project)
         })
-
-        console.log(projects[0])
 
         return projects
     }
