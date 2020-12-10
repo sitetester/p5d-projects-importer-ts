@@ -1,0 +1,47 @@
+Projects listing page!
+
+<style>
+    table, td, th thead {
+        border: 1px solid gray;
+    }
+
+    table.listing td {
+        text-align: center;
+    }
+
+    img.thumbnail {
+        width: 50%;
+        height: 25%;
+    }
+
+    table.preview td {
+        text-align: left;
+    }
+</style>
+
+<table style="border: 1px solid grey;">
+    <tr>
+        <th>Sr. #</th>
+        <th>Thumbnail</th>
+        <th>Title</th>
+        <th>Views</th>
+        <th>Floors</th>
+        <th>Rooms</th>
+        <th>Other items</th>
+        <th>About</th>
+    </tr>
+    <%
+    projects.forEach(function(project, index){
+    %>
+        <tr>
+            <td><%= index %></td>
+            <td><img src="<%= project.thumbnail.src %>" width="50%" height="50%"/></td>
+            <td><%= project.title %></td>
+            <td><%= project.numViews %></td>
+            <td><%= project.numFloors %></td>
+            <td><%= project.numRooms %></td>
+            <td><%= project.numOtherItems %></td>
+            <td><%= project.aboutContents %></td>
+        </tr>
+    <% }); %>
+</table>
