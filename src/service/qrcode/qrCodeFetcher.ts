@@ -13,6 +13,7 @@ export default class QrCodeFetcher {
 
         const url = this.GOOGLE_CHART_API + '?chs=' + this.chs + '&cht=qr&chl=' + encodeURI(contents);
         const response = await axios.get(url)
+
         return response['data']
     }
 }
