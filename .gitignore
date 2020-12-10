@@ -5,3 +5,4 @@ build/
 tmp/
 db/projects.db
 .DS_Store
+src/public/qr_codes

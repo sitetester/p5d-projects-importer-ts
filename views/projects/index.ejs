@@ -47,7 +47,9 @@ Projects listing page!
     <% projects.forEach(function(project, index){ %>
         <tr>
             <td><%= (index + 1) + ((pageNum - 1) * projectsPerPage) %></td>
-            <td><img src="<%= project.thumbnail.src %>" width="50%" height="50%"/></td>
+            <td><a
+                        href="/projects_preview?hash=<%= project.hash %>"
+                        rel="modal:open"><img src="<%= project.thumbnail.src %>" width="50%" height="50%"/></a></td>
             <td><%= project.title %></td>
             <td><%= project.numViews %></td>
             <td><%= project.numFloors %></td>
