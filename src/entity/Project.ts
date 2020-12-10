@@ -45,4 +45,6 @@ export class Project {
     @Column()
     numOtherItems: number;
 
+    @Column({nullable: true})
+    hits: number
 }

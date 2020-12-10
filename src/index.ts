@@ -59,6 +59,9 @@ createConnection().then(async connection => {
             },
         })
 
+        project.hits += 1
+        await connection.manager.save(project)
+
         await new QrCodesManager().generateCode(project)
 
         res.render('projects/preview', {
