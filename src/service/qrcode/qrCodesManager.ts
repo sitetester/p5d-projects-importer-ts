@@ -11,12 +11,9 @@ export default class QrCodesManager {
         this.qrCodeFetcher = new QrCodeFetcher()
     }
 
-
     async generateCode(project: Project): Promise<void> {
 
         const path = this.qrCodesPath + project.hash + '.png';
-        console.log('path = ' + path);
-
         if (fs.existsSync(path)) {
             return
         }
