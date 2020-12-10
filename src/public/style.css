@@ -1,0 +1,16 @@
+table, td, th thead {
+    border: 1px solid gray;
+}
+
+table.listing td {
+    text-align: center;
+}
+
+img.thumbnail {
+    width: 50%;
+    height: 25%;
+}
+
+table.preview td {
+    text-align: left;
+}

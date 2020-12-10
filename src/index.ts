@@ -11,6 +11,8 @@ createConnection().then(async connection => {
 
     const app = express()
     app.set('view engine', 'ejs');
+    app.use(express.static(__dirname + '/public'));
+
     const port = 3000
     app.listen(port, () => {
         console.log(`Example app listening at http://localhost:${port}`)
