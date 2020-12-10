@@ -19,6 +19,12 @@ Projects listing page!
     }
 </style>
 
+<div style="text-align: center">
+    <% for (let i = 1; i <= maxNum ; i++) { %>
+        <a href="?pageNum=<%= i %>"><%= i %></a>
+    <% } %>
+</div>
+
 <table style="border: 1px solid grey;">
     <tr>
         <th>Sr. #</th>
@@ -30,11 +36,9 @@ Projects listing page!
         <th>Other items</th>
         <th>About</th>
     </tr>
-    <%
-    projects.forEach(function(project, index){
-    %>
+    <% projects.forEach(function(project, index){ %>
         <tr>
-            <td><%= index %></td>
+            <td><%= (index + 1) + ((pageNum - 1) * projectsPerPage) %></td>
             <td><img src="<%= project.thumbnail.src %>" width="50%" height="50%"/></td>
             <td><%= project.title %></td>
             <td><%= project.numViews %></td>

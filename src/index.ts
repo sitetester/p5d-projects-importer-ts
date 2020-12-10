@@ -11,6 +11,10 @@ createConnection().then(async connection => {
 
     const app = express()
     app.set('view engine', 'ejs');
+    const port = 3000
+    app.listen(port, () => {
+        console.log(`Example app listening at http://localhost:${port}`)
+    })
 
 
     app.get('/', (req, res) => {
@@ -18,21 +22,32 @@ createConnection().then(async connection => {
     })
 
     app.get('/projects', async (req, res) => {
-        // https://typeorm.io/#/find-options
-        const projects = await connection.getRepository(Project).find({
-            take: 3,
-            relations: ['stats', 'thumbnail'],
-        });
 
-        console.log(projects);
-        res.render('projects/index', {
-            projects: projects,
-        });
-    })
+            let skip = 0
+            let pageNum = req.query.pageNum
+            if (pageNum !== undefined) {
+                skip = 5 * (pageNum - 1)
+            }
 
-    const port = 3000
-    app.listen(port, () => {
-        console.log(`Example app listening at http://localhost:${port}`)
-    })
+            // https://typeorm.io/#/find-options
+            const options = {
+                take: 5,
+                skip: skip,
+                relations: ['stats', 'thumbnail'],
+            }
+
+            const projectsCount = (await connection.getRepository(Project).find()).length
+            const projects = await connection.getRepository(Project).find(options);
+
+            const projectsPerPage = 5
+            res.render('projects/index', {
+                projects: projects,
+                maxNum: projectsCount / projectsPerPage,
+                projectsPerPage: projectsPerPage,
+                pageNum: pageNum
+            });
+        }
+    )
+
 
 }).catch(error => console.log(error));
