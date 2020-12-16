@@ -34,7 +34,7 @@ export default class ProjectDenormalizer {
 
                 const floorItems: [] = floor['items']
                 for (const floorItem of floorItems) {
-                    if (floorItem['className'] === 'Floor') {
+                    if (floorItem['className'] === 'Room') {
                         ++count;
                     }
                 }

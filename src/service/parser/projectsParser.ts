@@ -43,17 +43,14 @@ export default class ProjectsParser {
      */
     parse(html: string): Project[] {
 
-        let projects: Project[] = []
-        $('div.card.ideas-card', html).each(function (i, divCardIdeasCard) {
+        return $('div.card.ideas-card', html).map(function (i, divCardIdeasCard) {
             const project: Project = new Project()
 
             project.link = $('a.card-image.image', divCardIdeasCard).attr('href');
             project.thumbnail = ProjectsParser.parseThumbnail(divCardIdeasCard)
             project.stats = ProjectsParser.parseStats(divCardIdeasCard)
 
-            projects.push(project)
+            return project
         })
-
-        return projects
     }
 }
