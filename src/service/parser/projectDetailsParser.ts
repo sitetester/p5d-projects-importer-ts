@@ -22,9 +22,7 @@ export default class ProjectDetailsParser {
         project.hash = this.parseProjectKey(html)
 
         const data = await this.downloadProjectData(project.hash)
-        this.projectDenormalizer.denormalize(data, project)
-
-        return project
+        return this.projectDenormalizer.denormalize(data, project)
     }
 
     // somehow #btnCopyProject doesn't return `data` value
